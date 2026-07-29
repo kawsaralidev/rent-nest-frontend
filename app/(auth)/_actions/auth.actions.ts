@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
-import { login, register } from "@/services/auth";
+import { login, logout, register } from "@/services/auth";
 
 type LoginState = {
   success: boolean;
@@ -81,4 +81,14 @@ export const registerAction = async (
   };
 
   return await register(payload);
+};
+
+export const logoutAction = async () => {
+  await logout();
+
+  const cookieStore = await cookies();
+
+  cookieStore.delete("accessToken");
+
+  redirect("/login");
 };
