@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
-import { login, logout, register } from "@/services/auth";
+import { login, logout, refreshToken, register } from "@/services/auth";
 
 type LoginState = {
   success: boolean;
@@ -91,4 +91,23 @@ export const logoutAction = async () => {
   cookieStore.delete("accessToken");
 
   redirect("/login");
+};
+
+export const refreshTokenAction = async () => {
+  const result = await refreshToken();
+
+  if (!result.success) {
+    return null;
+  }
+
+  const cookieStore = await cookies();
+
+  cookieStore.set("accessToken", result.data.accessToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+  });
+
+  return result;
 };

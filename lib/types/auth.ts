@@ -42,3 +42,7 @@ export interface IRegisterResponse {
     user: IUser;
   };
 }
+
+// export type NavbarProps = {
+//   user: IUser;
+// };

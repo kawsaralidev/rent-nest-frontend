@@ -36,6 +36,15 @@ export const register = async (
   return res.json();
 };
 
+export const refreshToken = async () => {
+  const res = await fetch(`${BASE_URL}/auth/refresh-token`, {
+    method: "POST",
+    credentials: "include",
+  });
+
+  return res.json();
+};
+
 export const logout = async () => {
   const res = await fetch(`${BASE_URL}/auth/logout`, {
     method: "POST",
