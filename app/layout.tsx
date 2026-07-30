@@ -1,23 +1,32 @@
-import "./globals.css";
-import { Toaster } from "sonner";
-import { getMe } from "@/services/getme";
-import Navbar from "@/components/shared/navbar";
+import { ReactNode } from "react";
 
-export default async function RootLayout({
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+
+import { getMe } from "@/services/getme";
+
+// import DashboardSidebar from "./_components/DashboardSidebar";
+// import DashboardHeader from "./_components/DashboardHeader";
+import { AppSidebar } from "./(dashboard)/_components/App-sidebar";
+import DashboardHeader from "./(dashboard)/_components/Dashboard-header";
+
+interface DashboardLayoutProps {
+  children: ReactNode;
+}
+
+export default async function DashboardLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: DashboardLayoutProps) {
   const user = await getMe();
 
   return (
-    <html lang="en">
-      <body className="min-h-full flex flex-col">
-        <Navbar user={user} />
+    <SidebarProvider>
+      <AppSidebar user={user} />
 
-        <main className="flex-1">{children}</main>
-        <Toaster position="top-right" richColors closeButton duration={3000} />
-      </body>
-    </html>
+      <SidebarInset>
+        <DashboardHeader user={user} />
+
+        <main className="flex-1 p-6">{children}</main>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
