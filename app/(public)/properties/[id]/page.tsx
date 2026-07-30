@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { getSingleProperty } from "@/services/property/get-single-property";
+import RequestRentalButton from "@/components/property/rental-request-button";
 
 const PropertyDetailsPage = async ({
   params,
@@ -102,7 +103,7 @@ const PropertyDetailsPage = async ({
                   <span className="text-sm">{property.landlord.email}</span>
                 </div>
 
-                <div className="flex justify-between">
+                <div className="flex justify-between pb-5">
                   <span className="font-medium text-gray-500">Status</span>
 
                   <span
@@ -117,12 +118,17 @@ const PropertyDetailsPage = async ({
                 </div>
               </div>
 
-              <button
+              <RequestRentalButton
+                propertyId={property.id}
+                availability={property.availability}
+              />
+
+              {/* <button
                 className="mt-10 w-full rounded-2xl bg-primary py-4 text-lg font-semibold text-white transition hover:scale-[1.02]"
                 disabled={!property.availability}
               >
                 {property.availability ? "Request to Rent" : "Not Available"}
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
