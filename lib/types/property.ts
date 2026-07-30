@@ -37,3 +37,10 @@ export interface IPropertyResponse {
   message: string;
   data: IProperty[];
 }
+
+export interface ISinglePropertyResponse {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  data: IProperty;
+}
