@@ -117,6 +117,34 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* ===========================
+   Dashboard Sidebar Fix
+=========================== */
+
+@media (min-width: 768px) {
+  .dashboard-content {
+    margin-left: 12rem;
+    width: calc(100% - 12rem);
+    transition:
+      margin-left 0.2s ease,
+      width 0.2s ease;
+  }
+
+  /* Sidebar collapsed */
+  .group[data-state="collapsed"] ~ main .dashboard-content,
+  .peer[data-state="collapsed"] ~ main .dashboard-content {
+    margin-left: 3rem;
+    width: calc(100% - 3rem);
+  }
+}
+
+@media (max-width: 767px) {
+  .dashboard-content {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

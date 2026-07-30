@@ -1,32 +1,24 @@
-import { ReactNode } from "react";
+import { cn } from "@/lib/utils";
+import { Inter } from "next/font/google";
+import { Toaster } from "sonner";
+import "./globals.css";
 
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
-import { getMe } from "@/services/getme";
-
-// import DashboardSidebar from "./_components/DashboardSidebar";
-// import DashboardHeader from "./_components/DashboardHeader";
-import { AppSidebar } from "./(dashboard)/_components/App-sidebar";
-import DashboardHeader from "./(dashboard)/_components/Dashboard-header";
-
-interface DashboardLayoutProps {
-  children: ReactNode;
-}
-
-export default async function DashboardLayout({
+export default async function RootLayout({
   children,
-}: DashboardLayoutProps) {
-  const user = await getMe();
-
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <SidebarProvider>
-      <AppSidebar user={user} />
-
-      <SidebarInset>
-        <DashboardHeader user={user} />
-
-        <main className="flex-1 p-6">{children}</main>
-      </SidebarInset>
-    </SidebarProvider>
+    <html
+      lang="en"
+      className={cn("h-full antialiased", "font-sans", inter.variable)}
+    >
+      <body className="min-h-screen">
+        <Toaster position="top-right" richColors />
+        {children}
+      </body>
+    </html>
   );
 }
