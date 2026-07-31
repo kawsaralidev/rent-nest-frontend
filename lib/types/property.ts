@@ -1,46 +1,50 @@
-export interface ILandlord {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-  status: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface ICategory {
-  id: string;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
 export interface IProperty {
   id: string;
   title: string;
   description: string;
   location: string;
-  price: string;
-  availability: boolean;
-  landlordId: string;
-  categoryId: string;
+  price: number;
+  amenities: string[];
+  images?: string[];
+  isAvailable: boolean;
   createdAt: string;
   updatedAt: string;
-  amenities: string[];
-  landlord: ILandlord;
-  category: ICategory;
+
+  category: {
+    id: string;
+    name: string;
+  };
+
+  landlord: {
+    id: string;
+    name: string;
+    email: string;
+  };
 }
 
 export interface IPropertyResponse {
   success: boolean;
-  statusCode: number;
   message: string;
   data: IProperty[];
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPage: number;
+  };
 }
 
-export interface ISinglePropertyResponse {
+export interface ICreatePropertyPayload {
+  title: string;
+  description: string;
+  location: string;
+  price: number;
+  categoryId: string;
+  amenities: string[];
+}
+
+export interface ICreatePropertyResponse {
   success: boolean;
-  statusCode: number;
   message: string;
   data: IProperty;
 }

@@ -59,7 +59,7 @@ const PropertyDetailsPage = async ({
               <h2 className="mb-6 text-2xl font-bold">Amenities</h2>
 
               <div className="flex flex-wrap gap-3">
-                {property.amenities.map((item) => (
+                {property.amenities.map((item: string) => (
                   <span
                     key={item}
                     className="rounded-full bg-primary/10 px-5 py-2 text-sm font-medium text-primary"
