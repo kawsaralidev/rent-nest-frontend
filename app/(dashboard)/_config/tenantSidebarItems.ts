@@ -13,7 +13,7 @@ export const tenantSidebarItems = [
   },
   {
     title: "Payments",
-    url: "/tenant-dashboard/payments",
+    url: "/tenant-dashboard/payment-history",
     icon: CreditCard,
   },
 ];
