@@ -5,6 +5,7 @@ import { Pencil, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { IProperty } from "@/lib/types/property";
+import DeletePropertyButton from "./DeletePropertyButton";
 
 interface PropertyTableProps {
   properties: IProperty[];
@@ -58,11 +59,7 @@ export default function PropertyTable({ properties }: PropertyTableProps) {
                       Edit
                     </Button>
                   </Link>
-
-                  <Button size="sm" variant="destructive">
-                    <Trash2 className="mr-2 h-4 w-4" />
-                    Delete
-                  </Button>
+                  <DeletePropertyButton id={property.id} />
                 </div>
               </td>
             </tr>

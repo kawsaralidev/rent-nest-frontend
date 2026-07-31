@@ -1,26 +1,10 @@
-"use server";
-
-import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
+import { api } from "@/lib/api/api";
 
 export const deleteProperty = async (id: string) => {
-  const token = (await cookies()).get("accessToken")?.value;
-
-  const res = await fetch(
-    `${process.env.BACKEND_API_URL}/landlord/properties/${id}`,
-    {
-      method: "DELETE",
-      headers: {
-        Authorization: token || "",
-      },
-    },
-  );
-
-  const result = await res.json();
-
-  if (result.success) {
-    revalidatePath("/landlord-dashboard/properties");
-  }
+  const result = await api({
+    endpoint: `/landlord/properties/${id}`,
+    method: "DELETE",
+  });
 
   return result;
 };

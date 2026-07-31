@@ -1,69 +1,53 @@
 "use client";
 
-import { Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { useTransition } from "react";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { deleteProperty } from "@/services/property/delete-property";
+import { Trash2 } from "lucide-react";
+import { toast } from "sonner";
 
-interface Props {
+import { Button } from "@/components/ui/button";
+import { deletePropertyAction } from "@/app/(dashboard)/landlord-dashboard/properties/_actions/delete-property";
+
+interface DeleteButtonProps {
   id: string;
 }
 
-export default function DeletePropertyButton({ id }: Props) {
-  const [isPending, startTransition] = useTransition();
+export default function DeletePropertyButton({ id }: DeleteButtonProps) {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   const handleDelete = () => {
-    startTransition(async () => {
-      const res = await deleteProperty(id);
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this property?",
+    );
 
-      if (res?.success) {
-        toast.success(res.message);
-        router.refresh();
-      } else {
-        toast.error(res?.message || "Failed to delete property");
+    if (!confirmed) return;
+
+    startTransition(async () => {
+      try {
+        const result = await deletePropertyAction(id);
+
+        if (result.success) {
+          toast.success(result.message || "Property deleted successfully");
+          router.refresh();
+        } else {
+          toast.error(result.message || "Failed to delete property");
+        }
+      } catch {
+        toast.error("Something went wrong");
       }
     });
   };
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant="destructive" size="icon">
-          <Trash2 className="h-4 w-4" />
-        </Button>
-      </AlertDialogTrigger>
-
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Delete Property?</AlertDialogTitle>
-
-          <AlertDialogDescription>
-            This action cannot be undone.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-
-          <AlertDialogAction disabled={isPending} onClick={handleDelete}>
-            {isPending ? "Deleting..." : "Delete"}
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+    <Button
+      size="sm"
+      variant="destructive"
+      onClick={handleDelete}
+      disabled={isPending}
+    >
+      <Trash2 className="mr-2 h-4 w-4" />
+      {isPending ? "Deleting..." : "Delete"}
+    </Button>
   );
 }
