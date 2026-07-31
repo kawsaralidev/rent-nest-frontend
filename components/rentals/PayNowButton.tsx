@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { createPaymentAction } from "@/app/(dashboard)/tenant-dashboard/rentals/_actions/create-payment";
+import { toast } from "sonner";
 
 interface Props {
   rentalRequestId: string;
@@ -20,7 +21,17 @@ const PayNowButton = ({ rentalRequestId }: Props) => {
 
       window.location.href = response.data.paymentUrl;
     } catch (error) {
-      console.error(error);
+      if (
+        error instanceof Error &&
+        error.message === "Payment already exists"
+      ) {
+        toast.error("You already have a pending payment.");
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("Failed to process your payment.");
+      }
+
       setLoading(false);
     }
   };
