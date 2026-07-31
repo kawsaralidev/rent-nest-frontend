@@ -1,5 +1,11 @@
 import { api } from "@/lib/api/api";
-import { ISinglePropertyResponse } from "@/lib/types/property";
+import { IProperty } from "@/lib/types/property";
+
+export interface ISinglePropertyResponse {
+  success: boolean;
+  message: string;
+  data: IProperty;
+}
 
 export const getSingleProperty = async (
   id: string,

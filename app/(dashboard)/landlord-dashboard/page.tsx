@@ -1,11 +1,14 @@
-import LogoutButton from "@/components/shared/LogoutButton";
+import PropertyTable from "@/components/property/PropertyTable";
+import { getMyProperties } from "@/services/property/get-my-properties";
 
-export default function LandlordDashboard() {
+export default async function MyPropertiesPage() {
+  const properties = await getMyProperties();
+
   return (
-    <div className="p-10">
-      <h1 className="mb-5 text-3xl font-bold">Landlord Dashboard</h1>
+    <div className="space-y-6">
+      <h1 className="text-3xl font-bold">My Properties</h1>
 
-      <LogoutButton />
+      <PropertyTable properties={properties.data} />
     </div>
   );
 }

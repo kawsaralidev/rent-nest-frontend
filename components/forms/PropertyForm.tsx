@@ -4,6 +4,8 @@ import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 
 import { createPropertyAction } from "@/app/(dashboard)/landlord-dashboard/properties/_actions/create-property";
+import { updatePropertyAction } from "@/app/(dashboard)/landlord-dashboard/properties/_actions/update-property";
+
 import { type ICategory } from "@/services/category/get-categories";
 
 import { Button } from "@/components/ui/button";
@@ -17,6 +19,7 @@ import { ICreatePropertyResponse, IProperty } from "@/lib/types/property";
 interface PropertyFormProps {
   mode?: "create" | "edit";
   categories: ICategory[];
+  property?: IProperty;
 }
 
 const initialState: ICreatePropertyResponse = {
@@ -28,9 +31,10 @@ const initialState: ICreatePropertyResponse = {
 export default function PropertyForm({
   mode = "create",
   categories,
+  property,
 }: PropertyFormProps) {
   const [state, formAction, isPending] = useActionState(
-    createPropertyAction,
+    mode === "create" ? createPropertyAction : updatePropertyAction,
     initialState,
   );
 
@@ -54,6 +58,10 @@ export default function PropertyForm({
 
       <CardContent>
         <form action={formAction} className="space-y-5">
+          {mode === "edit" && (
+            <input type="hidden" name="id" value={property?.id} />
+          )}
+
           <div className="space-y-2">
             <Label htmlFor="title">Title</Label>
 
@@ -61,6 +69,7 @@ export default function PropertyForm({
               id="title"
               name="title"
               placeholder="Property title"
+              defaultValue={property?.title}
               required
             />
           </div>
@@ -71,8 +80,9 @@ export default function PropertyForm({
             <Textarea
               id="description"
               name="description"
-              placeholder="Property description"
               rows={5}
+              placeholder="Property description"
+              defaultValue={property?.description}
               required
             />
           </div>
@@ -84,6 +94,7 @@ export default function PropertyForm({
               id="location"
               name="location"
               placeholder="Location"
+              defaultValue={property?.location}
               required
             />
           </div>
@@ -97,10 +108,10 @@ export default function PropertyForm({
               type="number"
               min={0}
               placeholder="Monthly rent"
+              defaultValue={property?.price}
               required
             />
           </div>
-
           <div className="space-y-2">
             <Label htmlFor="categoryId">Category</Label>
 
@@ -108,6 +119,7 @@ export default function PropertyForm({
               id="categoryId"
               name="categoryId"
               className="w-full rounded-md border border-input bg-background px-3 py-2"
+              defaultValue={property?.category?.id}
               required
             >
               <option value="">Select Category</option>
@@ -127,13 +139,16 @@ export default function PropertyForm({
               id="amenities"
               name="amenities"
               placeholder="Wifi, Parking, Lift"
+              defaultValue={property?.amenities?.join(", ")}
               required
             />
           </div>
 
           <Button type="submit" disabled={isPending} className="w-full">
             {isPending
-              ? "Saving..."
+              ? mode === "create"
+                ? "Creating..."
+                : "Updating..."
               : mode === "create"
                 ? "Create Property"
                 : "Update Property"}

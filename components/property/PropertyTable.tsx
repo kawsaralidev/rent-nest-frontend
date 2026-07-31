@@ -1,89 +1,74 @@
 "use client";
 
 import Link from "next/link";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Pencil, Trash2 } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-// import { IProperty } from "@/types/property";
-import DeletePropertyButton from "./DeletePropertyButton";
 import { IProperty } from "@/lib/types/property";
 
 interface PropertyTableProps {
   properties: IProperty[];
-  meta?: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPage: number;
-  };
 }
 
 export default function PropertyTable({ properties }: PropertyTableProps) {
-  if (!properties.length) {
+  if (properties.length === 0) {
     return (
-      <div className="flex h-40 items-center justify-center rounded-lg border">
-        <p className="text-muted-foreground">No Properties Found</p>
+      <div className="rounded-lg border p-10 text-center">
+        <h3 className="text-xl font-semibold">No Property Found</h3>
+        <p className="mt-2 text-muted-foreground">
+          You have not created any property yet.
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="rounded-lg border">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Title</TableHead>
-            <TableHead>Category</TableHead>
-            <TableHead>Location</TableHead>
-            <TableHead>Price</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead className="text-right">Action</TableHead>
-          </TableRow>
-        </TableHeader>
+    <div className="overflow-x-auto rounded-lg border">
+      <table className="w-full">
+        <thead className="bg-muted">
+          <tr>
+            <th className="px-4 py-3 text-left">Title</th>
+            <th className="px-4 py-3 text-left">Location</th>
+            <th className="px-4 py-3 text-left">Price</th>
+            <th className="px-4 py-3 text-left">Category</th>
+            <th className="px-4 py-3 text-center">Action</th>
+          </tr>
+        </thead>
 
-        <TableBody>
+        <tbody>
           {properties.map((property) => (
-            <TableRow key={property.id}>
-              <TableCell className="font-medium">{property.title}</TableCell>
+            <tr key={property.id} className="border-t">
+              <td className="px-4 py-3">{property.title}</td>
 
-              <TableCell>{property.category?.name}</TableCell>
+              <td className="px-4 py-3">{property.location}</td>
 
-              <TableCell>{property.location}</TableCell>
+              <td className="px-4 py-3">
+                ৳ {Number(property.price).toLocaleString()}
+              </td>
 
-              <TableCell>৳ {property.price}</TableCell>
+              <td className="px-4 py-3">{property.category.name}</td>
 
-              <TableCell>
-                <Badge
-                  variant={property.isAvailable ? "default" : "destructive"}
-                >
-                  {property.isAvailable ? "Available" : "Unavailable"}
-                </Badge>
-              </TableCell>
-
-              <TableCell className="text-right">
-                <div className="flex justify-end gap-2">
-                  <Button asChild size="sm" variant="outline">
-                    <Link
-                      href={`/landlord-dashboard/properties/${property.id}/edit`}
-                    >
+              <td className="px-4 py-3">
+                <div className="flex items-center justify-center gap-2">
+                  <Link
+                    href={`/landlord-dashboard/properties/${property.id}/edit`}
+                  >
+                    <Button size="sm">
+                      <Pencil className="mr-2 h-4 w-4" />
                       Edit
-                    </Link>
-                  </Button>
+                    </Button>
+                  </Link>
 
-                  <DeletePropertyButton id={property.id} />
+                  <Button size="sm" variant="destructive">
+                    <Trash2 className="mr-2 h-4 w-4" />
+                    Delete
+                  </Button>
                 </div>
-              </TableCell>
-            </TableRow>
+              </td>
+            </tr>
           ))}
-        </TableBody>
-      </Table>
+        </tbody>
+      </table>
     </div>
   );
 }

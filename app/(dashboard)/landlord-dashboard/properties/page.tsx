@@ -1,14 +1,24 @@
-import PropertyForm from "@/components/forms/PropertyForm";
-import { getCategories } from "@/services/category/get-categories";
+import Link from "next/link";
 
-export default async function CreatePropertyPage() {
-  const categories = await getCategories();
+import { getMyProperties } from "@/services/property/get-my-properties";
+
+import { Button } from "@/components/ui/button";
+import PropertyTable from "@/components/property/PropertyTable";
+
+export default async function MyPropertiesPage() {
+  const response = await getMyProperties();
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Add Property</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl font-bold">My Properties</h1>
 
-      <PropertyForm mode="create" categories={categories} />
+        <Link href="/landlord-dashboard/properties/create">
+          <Button>Add Property</Button>
+        </Link>
+      </div>
+
+      <PropertyTable properties={response.data} />
     </div>
   );
 }

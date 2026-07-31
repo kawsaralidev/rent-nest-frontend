@@ -1,7 +1,7 @@
 import PropertyForm from "@/components/forms/PropertyForm";
 import { getCategories } from "@/services/category/get-categories";
 
-export default async function AddPropertyPage() {
+export default async function CreatePropertyPage() {
   const categories = await getCategories();
 
   return (

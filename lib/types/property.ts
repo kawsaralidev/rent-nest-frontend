@@ -48,3 +48,23 @@ export interface ICreatePropertyResponse {
   message: string;
   data: IProperty;
 }
+
+export interface IGetPropertyResponse {
+  success: boolean;
+  message: string;
+  data: IProperty;
+}
+
+export interface IUpdatePropertyPayload {
+  title: string;
+  description: string;
+  location: string;
+  price: number;
+  amenities: string[];
+}
+
+export interface IUpdatePropertyResponse {
+  success: boolean;
+  message: string;
+  data: IProperty;
+}

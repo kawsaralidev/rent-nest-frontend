@@ -35,12 +35,12 @@ const PropertyDetailsPage = async ({
           <div className="absolute right-8 top-8">
             <span
               className={`rounded-full px-4 py-2 text-sm font-semibold ${
-                property.availability
+                property.isAvailable
                   ? "bg-green-500 text-white"
                   : "bg-red-500 text-white"
               }`}
             >
-              {property.availability ? "Available" : "Unavailable"}
+              {property.isAvailable ? "Available" : "Unavailable"}
             </span>
           </div>
         </div>
@@ -108,19 +108,19 @@ const PropertyDetailsPage = async ({
 
                   <span
                     className={
-                      property.availability
+                      property.isAvailable
                         ? "font-semibold text-green-600"
                         : "font-semibold text-red-600"
                     }
                   >
-                    {property.availability ? "Available" : "Unavailable"}
+                    {property.isAvailable ? "Available" : "Unavailable"}
                   </span>
                 </div>
               </div>
 
               <RequestRentalButton
                 propertyId={property.id}
-                availability={property.availability}
+                availability={property.isAvailable}
               />
 
               {/* <button
