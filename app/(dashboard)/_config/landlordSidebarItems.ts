@@ -1,4 +1,4 @@
-import { Building2, Home, PlusCircle } from "lucide-react";
+import { Building2, ClipboardList, Home, PlusCircle } from "lucide-react";
 
 export const landlordSidebarItems = [
   {
@@ -15,5 +15,10 @@ export const landlordSidebarItems = [
     title: "Add Property",
     url: "/landlord-dashboard/properties/create",
     icon: PlusCircle,
+  },
+  {
+    title: "Rental Requests",
+    url: "/landlord-dashboard/requests",
+    icon: ClipboardList,
   },
 ];
