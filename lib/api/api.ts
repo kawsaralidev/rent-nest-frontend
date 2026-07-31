@@ -48,7 +48,7 @@ export const api = async ({ endpoint, headers, ...options }: FetchOptions) => {
   });
 
   if (!response.ok) {
-    await handleError(response);
+    return handleError(response);
   }
 
   return response.json();
