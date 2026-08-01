@@ -49,13 +49,13 @@ Password
 Email
 
 ```text
-tenant@example.com
+red@gmail.com
 ```
 
 Password
 
 ```text
-Tenant@123
+123456
 ```
 
 ---
@@ -120,15 +120,11 @@ Tenant@123
 
 # ⚙️ Installation
 
-## Clone Repository
-
-```bash
-git clone https://github.com/your-username/rent-nest.git
-```
-
 ## Frontend
 
 ```bash
+git clone
+
 cd rent-nest-frontend
 
 npm install

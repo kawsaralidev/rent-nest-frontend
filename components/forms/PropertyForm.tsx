@@ -5,9 +5,6 @@ import { toast } from "sonner";
 
 import { createPropertyAction } from "@/app/(dashboard)/landlord-dashboard/properties/_actions/create-property";
 import { updatePropertyAction } from "@/app/(dashboard)/landlord-dashboard/properties/_actions/update-property";
-
-// import { type ICategory } from "@/services/category/get-categories";
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -21,6 +18,7 @@ interface PropertyFormProps {
   mode?: "create" | "edit";
   categories: ICategory[];
   property?: IProperty;
+  onSuccess?: () => void;
 }
 
 const initialState: ICreatePropertyResponse = {
@@ -33,6 +31,7 @@ export default function PropertyForm({
   mode = "create",
   categories,
   property,
+  onSuccess,
 }: PropertyFormProps) {
   const [state, formAction, isPending] = useActionState(
     mode === "create" ? createPropertyAction : updatePropertyAction,
@@ -44,10 +43,14 @@ export default function PropertyForm({
 
     if (state.success) {
       toast.success(state.message);
+
+      if (mode === "edit") {
+        onSuccess?.();
+      }
     } else {
       toast.error(state.message);
     }
-  }, [state]);
+  }, [state, mode, onSuccess]);
 
   return (
     <Card className="w-full">

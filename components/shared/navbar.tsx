@@ -8,7 +8,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import { IUser } from "@/lib/types/auth";
 import { useRouter } from "next/navigation";
-import { User, LayoutDashboard, LogOut } from "lucide-react";
+import { LayoutDashboard, LogOut } from "lucide-react";
 
 import {
   DropdownMenu,

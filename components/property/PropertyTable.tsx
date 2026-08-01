@@ -1,17 +1,19 @@
 "use client";
 
-import Link from "next/link";
-import { Pencil, Trash2 } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
+import UpdatePropertyModal from "./UpdatePropertyModal";
 import { IProperty } from "@/lib/types/property";
 import DeletePropertyButton from "./DeletePropertyButton";
+import { ICategory } from "@/lib/types/category";
 
 interface PropertyTableProps {
   properties: IProperty[];
+  categories: ICategory[];
 }
 
-export default function PropertyTable({ properties }: PropertyTableProps) {
+export default function PropertyTable({
+  properties,
+  categories,
+}: PropertyTableProps) {
   if (properties.length === 0) {
     return (
       <div className="rounded-lg border p-10 text-center">
@@ -51,14 +53,10 @@ export default function PropertyTable({ properties }: PropertyTableProps) {
 
               <td className="px-4 py-3">
                 <div className="flex items-center justify-center gap-2">
-                  <Link
-                    href={`/landlord-dashboard/properties/${property.id}/edit`}
-                  >
-                    <Button size="sm">
-                      <Pencil className="mr-2 h-4 w-4" />
-                      Edit
-                    </Button>
-                  </Link>
+                  <UpdatePropertyModal
+                    property={property}
+                    categories={categories}
+                  />
                   <DeletePropertyButton id={property.id} />
                 </div>
               </td>
