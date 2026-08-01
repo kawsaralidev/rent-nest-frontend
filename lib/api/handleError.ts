@@ -1,5 +1,5 @@
 export const handleError = async (response: Response): Promise<never> => {
-  let errorMessage = "Something went wrong!";
+  let errorMessage = "Request failed.";
 
   try {
     const error = await response.json();
@@ -8,9 +8,10 @@ export const handleError = async (response: Response): Promise<never> => {
       error?.message ||
       error?.errorSources?.[0]?.message ||
       error?.errorDetails?.[0]?.message ||
-      errorMessage;
+      response.statusText ||
+      "Request failed.";
   } catch {
-    errorMessage = response.statusText || errorMessage;
+    errorMessage = response.statusText || "Request failed.";
   }
 
   throw new Error(errorMessage);

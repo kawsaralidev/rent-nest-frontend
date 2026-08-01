@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { createPropertyAction } from "@/app/(dashboard)/landlord-dashboard/properties/_actions/create-property";
 import { updatePropertyAction } from "@/app/(dashboard)/landlord-dashboard/properties/_actions/update-property";
 
-import { type ICategory } from "@/services/category/get-categories";
+// import { type ICategory } from "@/services/category/get-categories";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
 import { ICreatePropertyResponse, IProperty } from "@/lib/types/property";
+import { ICategory } from "@/lib/types/category";
 
 interface PropertyFormProps {
   mode?: "create" | "edit";
@@ -49,7 +50,7 @@ export default function PropertyForm({
   }, [state]);
 
   return (
-    <Card>
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>
           {mode === "create" ? "Add Property" : "Update Property"}

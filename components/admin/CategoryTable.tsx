@@ -147,6 +147,12 @@ export default function CategoryTable({ categories }: Props) {
 
                           if (result.success) {
                             toast.success(result.message);
+                          } else if (
+                            result.message.includes("Invalid reference")
+                          ) {
+                            toast.error(
+                              "Cannot delete this category because one or more properties are using it.",
+                            );
                           } else {
                             toast.error(result.message);
                           }

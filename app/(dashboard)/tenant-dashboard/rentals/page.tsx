@@ -2,6 +2,20 @@ import PayNowButton from "@/components/rentals/PayNowButton";
 import ReviewButton from "@/components/rentals/ReviewButton";
 import { IRental } from "@/lib/types/rental";
 import { getRentals } from "@/services/property/get-rentals";
+import Link from "next/link";
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+import { Badge } from "@/components/ui/badge";
+
+import { Card, CardContent } from "@/components/ui/card";
 
 const RentalsPage = async () => {
   const response = await getRentals();
@@ -10,7 +24,7 @@ const RentalsPage = async () => {
   console.log("Rental:", rentals);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 w-full">
       <h1 className="text-3xl font-bold">My Rentals</h1>
 
       {rentals.length === 0 ? (
@@ -20,54 +34,101 @@ const RentalsPage = async () => {
           </p>
         </div>
       ) : (
-        <div className="grid gap-6">
-          {rentals.map((rental) => (
-            <div key={rental.id} className="rounded-lg border p-5 shadow-sm">
-              <h2 className="text-xl font-semibold">{rental.property.title}</h2>
+        <Card>
+          <CardContent className="p-0">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Property</TableHead>
+                  <TableHead>Rent</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Payment</TableHead>
+                  <TableHead>Review</TableHead>
+                  <TableHead className="text-right">Action</TableHead>
+                </TableRow>
+              </TableHeader>
 
-              <p className="text-muted-foreground">
-                {rental.property.location}
-              </p>
+              <TableBody>
+                {rentals.map((rental) => (
+                  <TableRow key={rental.id}>
+                    {/* Property */}
+                    <TableCell>
+                      <div>
+                        <p className="font-semibold">{rental.property.title}</p>
 
-              <p className="mt-2 font-medium">
-                ৳ {rental.property.price}/month
-              </p>
+                        <p className="text-sm text-muted-foreground">
+                          📍 {rental.property.location}
+                        </p>
+                      </div>
+                    </TableCell>
 
-              <div className="mt-3">
-                <span
-                  className={`rounded px-3 py-1 text-sm font-medium ${
-                    rental.status === "PENDING"
-                      ? "bg-yellow-100 text-yellow-700"
-                      : rental.status === "APPROVED"
-                        ? "bg-blue-100 text-blue-700"
-                        : rental.status === "ACTIVE"
-                          ? "bg-green-100 text-green-700"
-                          : rental.status === "COMPLETED"
-                            ? "bg-slate-200 text-slate-700"
-                            : "bg-red-100 text-red-700"
-                  }`}
-                >
-                  {rental.status}
-                </span>
-              </div>
+                    {/* Rent */}
+                    <TableCell className="font-semibold">
+                      ৳ {Number(rental.property.price).toLocaleString()}
+                    </TableCell>
 
-              <div className="mt-4 flex gap-2">
-                {rental.status === "APPROVED" && (
-                  <PayNowButton rentalRequestId={rental.id} />
-                )}
+                    {/* Status */}
+                    <TableCell>
+                      <Badge
+                        className={
+                          rental.status === "PENDING"
+                            ? "bg-yellow-500 hover:bg-yellow-500"
+                            : rental.status === "APPROVED"
+                              ? "bg-blue-600 hover:bg-blue-600"
+                              : rental.status === "ACTIVE"
+                                ? "bg-green-600 hover:bg-green-600"
+                                : rental.status === "COMPLETED"
+                                  ? "bg-slate-600 hover:bg-slate-600"
+                                  : "bg-red-600 hover:bg-red-600"
+                        }
+                      >
+                        {rental.status}
+                      </Badge>
+                    </TableCell>
 
-                {rental.status === "COMPLETED" &&
-                  (rental.review ? (
-                    <span className="rounded-md bg-green-100 px-3 py-2 text-sm font-medium text-green-700">
-                      Reviewed
-                    </span>
-                  ) : (
-                    <ReviewButton rental={rental} />
-                  ))}
-              </div>
-            </div>
-          ))}
-        </div>
+                    {/* Payment */}
+                    <TableCell>
+                      {rental.status === "APPROVED" ? (
+                        <PayNowButton rentalRequestId={rental.id} />
+                      ) : rental.payment ? (
+                        <Badge className="bg-green-600 hover:bg-green-600">
+                          Paid
+                        </Badge>
+                      ) : (
+                        <span className="text-muted-foreground">-</span>
+                      )}
+                    </TableCell>
+
+                    {/* Review */}
+                    <TableCell>
+                      {rental.status === "COMPLETED" ? (
+                        rental.review ? (
+                          <Badge className="bg-green-600 hover:bg-green-600">
+                            Reviewed
+                          </Badge>
+                        ) : (
+                          <ReviewButton rental={rental} />
+                        )
+                      ) : (
+                        <span className="text-muted-foreground">-</span>
+                      )}
+                    </TableCell>
+
+                    {/* Action */}
+                    <TableCell className="text-right">
+                      <Link
+                        href={`/properties/${rental.property.id}`}
+                        className="font-semibold text-primary hover:underline"
+                      >
+                        View →
+                      </Link>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
       )}
     </div>
   );

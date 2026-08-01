@@ -4,13 +4,22 @@ import { IPayment } from "@/lib/types/payment";
 import { getPayments } from "@/services/payment/get-payments";
 import Link from "next/link";
 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
 const PaymentHistoryPage = async () => {
   const response = await getPayments();
 
   const payments: IPayment[] = response?.data ?? [];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 w-full">
       <div>
         <h1 className="text-3xl font-bold">Payment History</h1>
         <p className="text-muted-foreground">
@@ -25,106 +34,86 @@ const PaymentHistoryPage = async () => {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-          {payments.map((payment) => (
-            <Card
-              key={payment.id}
-              className="overflow-hidden rounded-2xl border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-            >
-              <CardContent className="p-0">
-                {/* Header */}
-                <div className="flex items-center justify-between border-b bg-muted/40 px-6 py-5">
-                  <div>
-                    <h2 className="text-xl font-bold">
-                      🏠 {payment.rentalRequest.property.title}
-                    </h2>
+        <Card>
+          <CardContent className="p-0">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Property</TableHead>
+                  <TableHead>Amount</TableHead>
+                  <TableHead>Method</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Paid At</TableHead>
+                  <TableHead>Transaction ID</TableHead>
+                  <TableHead className="text-right">Action</TableHead>
+                </TableRow>
+              </TableHeader>
 
-                    <p className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
-                      📍 {payment.rentalRequest.property.location}
-                    </p>
-                  </div>
+              <TableBody>
+                {payments.map((payment) => (
+                  <TableRow key={payment.id}>
+                    <TableCell>
+                      <div>
+                        <p className="font-semibold">
+                          {payment.rentalRequest.property.title}
+                        </p>
 
-                  <span
-                    className={`rounded-full px-4 py-1.5 text-sm font-semibold ${
-                      payment.status === "COMPLETED"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-yellow-100 text-yellow-700"
-                    }`}
-                  >
-                    {payment.status}
-                  </span>
-                </div>
+                        <p className="text-sm text-muted-foreground">
+                          📍 {payment.rentalRequest.property.location}
+                        </p>
+                      </div>
+                    </TableCell>
 
-                {/* Body */}
-                <div className="space-y-4 p-6">
-                  <div className="flex items-center justify-between border-b pb-3">
-                    <span className="font-medium text-muted-foreground">
-                      💰 Monthly Rent
-                    </span>
+                    <TableCell>
+                      <span className="font-semibold">
+                        ৳ {Number(payment.amount).toLocaleString()}
+                      </span>
+                    </TableCell>
 
-                    <span className="font-semibold">
-                      ৳ {payment.rentalRequest.property.price}
-                    </span>
-                  </div>
+                    <TableCell>
+                      <Badge variant="outline" className="uppercase">
+                        {payment.method}
+                      </Badge>
+                    </TableCell>
 
-                  <div className="flex items-center justify-between border-b pb-3">
-                    <span className="font-medium text-muted-foreground">
-                      💳 Paid Amount
-                    </span>
+                    <TableCell>
+                      <Badge
+                        className={
+                          payment.status === "COMPLETED"
+                            ? "bg-green-600 hover:bg-green-600"
+                            : "bg-yellow-500 hover:bg-yellow-500"
+                        }
+                      >
+                        {payment.status}
+                      </Badge>
+                    </TableCell>
 
-                    <span className="font-semibold">৳ {payment.amount}</span>
-                  </div>
-
-                  <div className="flex items-center justify-between border-b pb-3">
-                    <span className="font-medium text-muted-foreground">
-                      💼 Payment Method
-                    </span>
-
-                    <span className="uppercase font-semibold">
-                      {payment.method}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center justify-between border-b pb-3">
-                    <span className="font-medium text-muted-foreground">
-                      🆔 Transaction ID
-                    </span>
-
-                    <span className="max-w-[220px] truncate font-mono text-sm">
-                      {payment.transactionId || "-"}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <span className="font-medium text-muted-foreground">
-                      📅 Paid At
-                    </span>
-
-                    <span>
+                    <TableCell>
                       {payment.paidAt
                         ? new Date(payment.paidAt).toLocaleDateString()
-                        : "Not Paid Yet"}
-                    </span>
-                  </div>
-                </div>
+                        : "-"}
+                    </TableCell>
 
-                {/* Footer */}
-                <div className="flex items-center justify-between border-t bg-muted/30 px-6 py-4">
-                  <span className="text-sm text-muted-foreground">
-                    Property ID: {payment.rentalRequest.property.id}
-                  </span>
+                    <TableCell>
+                      <span className="max-w-[140px] block truncate font-mono text-xs">
+                        {payment.transactionId}
+                      </span>
+                    </TableCell>
 
-                  <Link
-                    href={`/properties/${payment.rentalRequest.property.id}`}
-                    className="font-semibold text-primary transition hover:underline"
-                  >
-                    View Property →
-                  </Link>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                    <TableCell className="text-right">
+                      <Link
+                        href={`/properties/${payment.rentalRequest.property.id}`}
+                        className="font-semibold text-primary hover:underline"
+                      >
+                        View →
+                      </Link>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
       )}
     </div>
   );

@@ -5,9 +5,16 @@ import { revalidateTag } from "next/cache";
 import { deleteCategory } from "@/services/category/delete-category";
 
 export const deleteCategoryAction = async (id: string) => {
-  const result = await deleteCategory(id);
+  try {
+    const result = await deleteCategory(id);
 
-  revalidateTag("CATEGORIES");
+    revalidateTag("CATEGORIES");
 
-  return result;
+    return result;
+  } catch (error) {
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : "Request failed.",
+    };
+  }
 };

@@ -34,14 +34,6 @@ const navItems = [
     title: "Properties",
     href: "/properties",
   },
-  {
-    title: "About",
-    href: "/about",
-  },
-  {
-    title: "Contact",
-    href: "/contact",
-  },
 ];
 
 export default function Navbar({ user }: NavbarProps) {

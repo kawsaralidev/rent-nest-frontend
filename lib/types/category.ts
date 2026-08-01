@@ -5,11 +5,11 @@ export interface ICategory {
   updatedAt: string;
 }
 
-// export interface ICategoryResponse {
-//   success: boolean;
-//   message: string;
-//   data: ICategory[];
-// }
+export interface ICategoryResponse {
+  success: boolean;
+  message: string;
+  data: ICategory[];
+}
 
 export interface ICreateCategoryPayload {
   name: string;

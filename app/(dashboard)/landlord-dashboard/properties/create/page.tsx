@@ -5,9 +5,7 @@ export default async function CreatePropertyPage() {
   const categories = await getCategories();
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Add Property</h1>
-
+    <div className="space-y-6  w-full">
       <PropertyForm mode="create" categories={categories} />
     </div>
   );
