@@ -1,36 +1,155 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏠 RentNest
 
-## Getting Started
+B: Note: There is a delay in getting a response due to deploying the server site render.
 
-First, run the development server:
+RentNest is a full-stack rental property management system built with **Next.js, Express.js, Prisma, PostgreSQL, and Stripe**. It allows tenants to rent properties, landlords to manage listings, and administrators to monitor the platform through role-based dashboards.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+# 🌐 Live Links
+
+- **Frontend:** https://your-frontend-url.vercel.app
+- **Backend:** https://rent-nest-backend-bl08.onrender.com/
+- **Demo Video:** https://your-demo-video-link
+
+---
+
+# 🔑 Demo Credentials
+
+## Admin
+
+Email
+
+```text
+abc@gmail.com
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Password
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+123456
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Landlord
 
-## Learn More
+Email
 
-To learn more about Next.js, take a look at the following resources:
+```text
+abul@gmail.com
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Password
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```text
+123456
+```
 
-## Deploy on Vercel
+## Tenant
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Email
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```text
+tenant@example.com
+```
+
+Password
+
+```text
+Tenant@123
+```
+
+---
+
+# ✨ Features
+
+## Authentication
+
+- User Registration & Login
+- JWT Authentication
+- Role-Based Authorization
+- Protected Routes
+- Logout
+
+## Public Features
+
+- Responsive Property Listing
+- Property Details Page
+- Property Search & Filtering
+- Rental Request
+- Loading Skeleton
+- Error Handling
+
+## Tenant
+
+- Rental Request Management
+- Stripe Payment Integration
+- Rental History
+- Payment History
+- Review Submission
+
+## Landlord
+
+- Dashboard Overview
+- Property CRUD
+- Availability Toggle
+- Rental Request Management
+- Approve / Reject Requests
+
+## Admin
+
+- Dashboard Overview
+- User Management
+- Ban / Unban Users
+- Category Management
+- View Properties
+- View Rental Requests
+
+---
+
+# 🛠 Tech Stack
+
+### Frontend
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- Shadcn UI
+
+---
+
+# ⚙️ Installation
+
+## Clone Repository
+
+```bash
+git clone https://github.com/your-username/rent-nest.git
+```
+
+## Frontend
+
+```bash
+cd rent-nest-frontend
+
+npm install
+
+npm run dev
+```
+
+---
+
+# 🔐 Environment Variables
+
+## Frontend
+
+```env
+BACKEND_API_URL=https://rent-nest-backend-bl08.onrender.com/
+```
+
+---
+
+# 👨‍💻 Author
+
+**Md Kawsar Ali**
+
+Email: mdkawsarali346@gmail.com
