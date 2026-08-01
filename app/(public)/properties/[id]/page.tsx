@@ -1,6 +1,7 @@
 import Image from "next/image";
-import { getSingleProperty } from "@/services/property/get-single-property";
+
 import RequestRentalButton from "@/components/property/rental-request-button";
+import { getSingleProperty } from "@/services/property/get-single-property";
 
 const PropertyDetailsPage = async ({
   params,
@@ -18,7 +19,10 @@ const PropertyDetailsPage = async ({
         {/* Hero Image */}
         <div className="relative h-[420px] overflow-hidden rounded-3xl">
           <Image
-            src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=1600&auto=format&fit=crop"
+            src={
+              property.imageUrl ||
+              "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=1600&auto=format&fit=crop"
+            }
             alt={property.title}
             fill
             className="object-cover"
@@ -26,7 +30,7 @@ const PropertyDetailsPage = async ({
 
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
 
-          <div className="absolute left-8 bottom-8">
+          <div className="absolute bottom-8 left-8">
             <h1 className="text-4xl font-bold text-white">{property.title}</h1>
 
             <p className="mt-3 text-lg text-white/90">📍 {property.location}</p>
@@ -35,12 +39,12 @@ const PropertyDetailsPage = async ({
           <div className="absolute right-8 top-8">
             <span
               className={`rounded-full px-4 py-2 text-sm font-semibold ${
-                property.isAvailable
+                property.availability
                   ? "bg-green-500 text-white"
                   : "bg-red-500 text-white"
               }`}
             >
-              {property.isAvailable ? "Available" : "Unavailable"}
+              {property.availability ? "Available" : "Unavailable"}
             </span>
           </div>
         </div>
@@ -108,27 +112,20 @@ const PropertyDetailsPage = async ({
 
                   <span
                     className={
-                      property.isAvailable
+                      property.availability
                         ? "font-semibold text-green-600"
                         : "font-semibold text-red-600"
                     }
                   >
-                    {property.isAvailable ? "Available" : "Unavailable"}
+                    {property.availability ? "Available" : "Unavailable"}
                   </span>
                 </div>
               </div>
 
               <RequestRentalButton
                 propertyId={property.id}
-                availability={property.isAvailable}
+                availability={property.availability}
               />
-
-              {/* <button
-                className="mt-10 w-full rounded-2xl bg-primary py-4 text-lg font-semibold text-white transition hover:scale-[1.02]"
-                disabled={!property.availability}
-              >
-                {property.availability ? "Request to Rent" : "Not Available"}
-              </button> */}
             </div>
           </div>
         </div>

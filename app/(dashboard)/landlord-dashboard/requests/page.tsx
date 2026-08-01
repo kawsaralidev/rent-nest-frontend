@@ -1,5 +1,6 @@
 import RequestCard from "@/components/landlord/request-card";
 import { getLandlordRequests } from "@/services/rental/get-landlord-requests";
+import { ClipboardList } from "lucide-react";
 
 const LandlordRequestsPage = async () => {
   const rentals = await getLandlordRequests();
@@ -14,8 +15,14 @@ const LandlordRequestsPage = async () => {
       </div>
 
       {rentals.length === 0 ? (
-        <div className="flex h-60 items-center justify-center rounded-xl border">
-          <p className="text-muted-foreground">No rental requests found.</p>
+        <div className="flex h-80 flex-col items-center justify-center rounded-xl border border-dashed">
+          <ClipboardList className="mb-4 h-14 w-14 text-muted-foreground" />
+
+          <h2 className="text-xl font-semibold">No Rental Requests</h2>
+
+          <p className="text-muted-foreground">
+            There are currently no incoming rental requests.
+          </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">

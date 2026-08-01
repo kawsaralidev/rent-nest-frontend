@@ -103,7 +103,7 @@ const RequestCard = ({ rental }: Props) => {
               disabled={isPending}
               onClick={() => handleStatusUpdate("APPROVED")}
             >
-              Approve
+              {isPending ? "Updating..." : "Approve"}
             </Button>
 
             <Button
@@ -112,7 +112,7 @@ const RequestCard = ({ rental }: Props) => {
               disabled={isPending}
               onClick={() => handleStatusUpdate("REJECTED")}
             >
-              Reject
+              {isPending ? "Updating..." : "Reject"}
             </Button>
           </div>
         )}
@@ -129,7 +129,7 @@ const RequestCard = ({ rental }: Props) => {
             disabled={isPending}
             onClick={() => handleCompleteRental(rental.id)}
           >
-            Complete Rental
+            {isPending ? "Updating..." : "Complete Rental"}
           </Button>
         )}
 

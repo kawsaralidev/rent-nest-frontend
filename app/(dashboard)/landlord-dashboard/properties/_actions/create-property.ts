@@ -13,6 +13,7 @@ export const createPropertyAction = async (
   const payload: ICreatePropertyPayload = {
     title: formData.get("title") as string,
     description: formData.get("description") as string,
+    imageUrl: (formData.get("imageUrl") as string) || undefined,
     location: formData.get("location") as string,
     price: Number(formData.get("price")),
     categoryId: formData.get("categoryId") as string,

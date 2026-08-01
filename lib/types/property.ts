@@ -2,11 +2,11 @@ export interface IProperty {
   id: string;
   title: string;
   description: string;
+  imageUrl?: string;
   location: string;
   price: number;
   amenities: string[];
-  images?: string[];
-  isAvailable: boolean;
+  availability: boolean;
   createdAt: string;
   updatedAt: string;
 
@@ -37,6 +37,7 @@ export interface IPropertyResponse {
 export interface ICreatePropertyPayload {
   title: string;
   description: string;
+  imageUrl?: string;
   location: string;
   price: number;
   categoryId: string;
@@ -58,6 +59,7 @@ export interface IGetPropertyResponse {
 export interface IUpdatePropertyPayload {
   title: string;
   description: string;
+  imageUrl?: string;
   location: string;
   price: number;
   amenities: string[];
@@ -67,4 +69,10 @@ export interface IUpdatePropertyResponse {
   success: boolean;
   message: string;
   data: IProperty;
+}
+
+export interface ICreateReviewPayload {
+  rentalRequestId: string;
+  rating: number;
+  comment: string;
 }

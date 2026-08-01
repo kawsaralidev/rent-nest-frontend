@@ -12,7 +12,10 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
       {/* Image */}
       <div className="relative h-64 overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=1200&auto=format&fit=crop"
+          src={
+            property.imageUrl ||
+            "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=1200&auto=format&fit=crop"
+          }
           alt={property.title}
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-110"

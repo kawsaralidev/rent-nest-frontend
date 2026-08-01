@@ -86,6 +86,17 @@ export default function PropertyForm({
               required
             />
           </div>
+          <div className="space-y-2">
+            <Label htmlFor="imageUrl">Image URL</Label>
+
+            <Input
+              id="imageUrl"
+              name="imageUrl"
+              type="url"
+              placeholder="https://example.com/property.jpg"
+              defaultValue={property?.imageUrl}
+            />
+          </div>
 
           <div className="space-y-2">
             <Label htmlFor="location">Location</Label>
