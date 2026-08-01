@@ -1,6 +1,12 @@
 "use client";
 
+import { useTransition } from "react";
+import { toast } from "sonner";
+
+import { updateUserStatusAction } from "@/app/(dashboard)/admin-dashboard/users/_actions/update-user-status";
+
 import { IUser } from "@/lib/types/admin";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -9,6 +15,20 @@ interface UserTableProps {
 }
 
 const UserTable = ({ users }: UserTableProps) => {
+  const [isPending, startTransition] = useTransition();
+
+  const handleStatusUpdate = (id: string, status: "ACTIVE" | "BANNED") => {
+    startTransition(async () => {
+      const res = await updateUserStatusAction(id, status);
+
+      if (res.success) {
+        toast.success(res.message);
+      } else {
+        toast.error(res.message);
+      }
+    });
+  };
+
   if (users.length === 0) {
     return (
       <div className="rounded-lg border p-10 text-center">
@@ -33,7 +53,10 @@ const UserTable = ({ users }: UserTableProps) => {
 
         <tbody>
           {users.map((user) => (
-            <tr key={user.id} className="border-b last:border-none">
+            <tr
+              key={user.id}
+              className="border-b transition-colors hover:bg-muted/30"
+            >
               <td className="px-5 py-4 font-medium">{user.name}</td>
 
               <td className="px-5 py-4">{user.email}</td>
@@ -56,11 +79,22 @@ const UserTable = ({ users }: UserTableProps) => {
 
               <td className="px-5 py-4 text-center">
                 {user.status === "ACTIVE" ? (
-                  <Button size="sm" variant="destructive">
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    disabled={isPending}
+                    onClick={() => handleStatusUpdate(user.id, "BANNED")}
+                  >
                     Ban
                   </Button>
                 ) : (
-                  <Button size="sm">Unban</Button>
+                  <Button
+                    size="sm"
+                    disabled={isPending}
+                    onClick={() => handleStatusUpdate(user.id, "ACTIVE")}
+                  >
+                    Unban
+                  </Button>
                 )}
               </td>
             </tr>
