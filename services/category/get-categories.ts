@@ -1,23 +1,14 @@
+import { ICategoryResponse } from "./../../lib/types/category";
 import { api } from "@/lib/api/api";
-
-export interface ICategory {
-  id: string;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface ICategoryResponse {
-  success: boolean;
-  statusCode: number;
-  message: string;
-  data: ICategory[];
-}
+import { ICategory } from "@/lib/types/category";
 
 export const getCategories = async (): Promise<ICategory[]> => {
   const response = (await api({
     endpoint: "/categories",
     method: "GET",
+    next: {
+      tags: ["CATEGORIES"],
+    },
   })) as ICategoryResponse;
 
   return response.data;
