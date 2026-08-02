@@ -10,16 +10,23 @@ import { createRentalAction } from "@/app/(public)/properties/_actions/rental.ac
 type RequestRentalButtonProps = {
   propertyId: string;
   availability: boolean;
+  isLoggedIn: boolean;
 };
 
 const RequestRentalButton = ({
   propertyId,
   availability,
+  isLoggedIn,
 }: RequestRentalButtonProps) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const handleRequest = () => {
+    if (!isLoggedIn) {
+      router.push("/login");
+      return;
+    }
+
     startTransition(async () => {
       try {
         const result = await createRentalAction(propertyId);
@@ -34,7 +41,6 @@ const RequestRentalButton = ({
       }
     });
   };
-
   return (
     <Button
       onClick={handleRequest}

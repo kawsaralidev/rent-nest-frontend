@@ -1,4 +1,5 @@
 import LoginForm from "@/components/forms/LoginForm";
+import Link from "next/link";
 
 export default function LoginPage() {
   return (
@@ -15,6 +16,16 @@ export default function LoginPage() {
 
           {/* FORM */}
           <LoginForm />
+          <p className="mt-6 text-center text-sm text-muted-foreground">
+            If you are a new user,{" "}
+            <Link
+              href="/register"
+              className="font-medium text-primary hover:underline"
+            >
+              Register
+            </Link>
+            .
+          </p>
         </div>
       </div>
     </>

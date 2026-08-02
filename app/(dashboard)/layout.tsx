@@ -5,6 +5,7 @@ import { getMe } from "@/services/getme";
 
 import { AppSidebar } from "./_components/App-sidebar";
 import DashboardHeader from "./_components/Dashboard-header";
+import { redirect } from "next/navigation";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -14,6 +15,10 @@ export default async function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
   const user = await getMe();
+
+  if (!user) {
+    redirect("/login");
+  }
 
   return (
     <SidebarProvider>

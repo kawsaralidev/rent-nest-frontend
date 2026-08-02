@@ -9,7 +9,11 @@ export default async function Home() {
       <Navbar user={user} />
 
       <main className="flex min-h-[calc(100vh-64px)] items-center justify-center">
-        <h1 className="text-4xl font-bold">Welcome to RentNest</h1>
+        <div className="inline-block ">
+          <h1 className="text-4xl font-bold py-5">Welcome to RentNest</h1>
+
+          <h1 className="text-3xl font-bold">Please go to Properties page</h1>
+        </div>
       </main>
     </>
   );

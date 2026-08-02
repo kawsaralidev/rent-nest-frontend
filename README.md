@@ -8,7 +8,7 @@ RentNest is a full-stack rental property management system built with **Next.js,
 
 # 🌐 Live Links
 
-- **Frontend:** https://your-frontend-url.vercel.app
+- **Frontend:** https://rent-nest-theta-five.vercel.app
 - **Backend:** https://rent-nest-backend-bl08.onrender.com/
 - **Demo Video:** https://your-demo-video-link
 

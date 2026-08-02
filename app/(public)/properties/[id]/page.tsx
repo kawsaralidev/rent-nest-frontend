@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import RequestRentalButton from "@/components/property/rental-request-button";
 import { getSingleProperty } from "@/services/property/get-single-property";
+import { getMe } from "@/services/getme";
 
 const PropertyDetailsPage = async ({
   params,
@@ -12,6 +13,7 @@ const PropertyDetailsPage = async ({
 
   const response = await getSingleProperty(id);
   const property = response.data;
+  const user = await getMe();
 
   return (
     <section className="bg-gray-50">
@@ -125,6 +127,7 @@ const PropertyDetailsPage = async ({
               <RequestRentalButton
                 propertyId={property.id}
                 availability={property.availability}
+                isLoggedIn={!!user}
               />
             </div>
           </div>
