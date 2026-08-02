@@ -1,7 +1,6 @@
 import Image from "next/image";
 
 import { IAdminProperty } from "@/lib/types/admin";
-import { ICategory } from "@/lib/types/category";
 import { Badge } from "@/components/ui/badge";
 
 interface PropertyTableProps {
