@@ -1,4 +1,3 @@
-import Link from "next/link";
 import {
   Search,
   Send,
@@ -53,7 +52,7 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <section className="relative overflow-hidden py-24">
+    <section className="relative overflow-hidden py-16">
       {/* Background */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white via-slate-50 to-white" />
 

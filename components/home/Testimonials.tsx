@@ -29,7 +29,7 @@ const testimonials = [
 
 const Testimonials = () => {
   return (
-    <section className="relative overflow-hidden py-16">
+    <section className="relative overflow-hidden py-12">
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-slate-50 via-white to-slate-50" />
 
       <div className="container mx-auto px-6">

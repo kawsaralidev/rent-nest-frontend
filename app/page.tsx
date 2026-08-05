@@ -1,5 +1,6 @@
 import CategoriesSection from "@/components/home/CategoriesSection";
 import FeaturedProperties from "@/components/home/FeaturedProperties";
+import FinalCTA from "@/components/home/FinalCTA";
 import Hero from "@/components/home/Hero";
 import HowItWorks from "@/components/home/HowItWorks";
 import Testimonials from "@/components/home/Testimonials";
@@ -20,6 +21,7 @@ export default async function Home() {
           <CategoriesSection></CategoriesSection>
           <HowItWorks></HowItWorks>
           <Testimonials></Testimonials>
+          <FinalCTA></FinalCTA>
         </div>
       </main>
     </>
