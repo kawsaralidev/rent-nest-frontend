@@ -1,3 +1,4 @@
+import CategoriesSection from "@/components/home/CategoriesSection";
 import FeaturedProperties from "@/components/home/FeaturedProperties";
 import Hero from "@/components/home/Hero";
 import Navbar from "@/components/shared/navbar";
@@ -14,6 +15,7 @@ export default async function Home() {
         <div className="inline-block ">
           <Hero></Hero>
           <FeaturedProperties></FeaturedProperties>
+          <CategoriesSection></CategoriesSection>
         </div>
       </main>
     </>

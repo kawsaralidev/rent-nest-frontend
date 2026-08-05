@@ -11,7 +11,7 @@ export default function Hero() {
       <div className="absolute -left-24 top-10 h-72 w-72 rounded-full bg-sky-300/30 blur-3xl" />
       <div className="absolute right-0 bottom-0 h-80 w-80 rounded-full bg-indigo-300/20 blur-3xl" />
 
-      <div className="container -mt-15 mx-auto px-6 py-24 lg:py-32">
+      <div className="container  mx-auto px-6 py-12">
         <div className="grid items-center gap-16 lg:grid-cols-2">
           {/* Left */}
           <div>
