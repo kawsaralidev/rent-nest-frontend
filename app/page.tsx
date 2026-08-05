@@ -2,6 +2,7 @@ import CategoriesSection from "@/components/home/CategoriesSection";
 import FeaturedProperties from "@/components/home/FeaturedProperties";
 import Hero from "@/components/home/Hero";
 import HowItWorks from "@/components/home/HowItWorks";
+import Testimonials from "@/components/home/Testimonials";
 import Navbar from "@/components/shared/navbar";
 import { getMe } from "@/services/getme";
 
@@ -18,6 +19,7 @@ export default async function Home() {
           <FeaturedProperties></FeaturedProperties>
           <CategoriesSection></CategoriesSection>
           <HowItWorks></HowItWorks>
+          <Testimonials></Testimonials>
         </div>
       </main>
     </>
