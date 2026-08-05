@@ -4,6 +4,7 @@ import FinalCTA from "@/components/home/FinalCTA";
 import Hero from "@/components/home/Hero";
 import HowItWorks from "@/components/home/HowItWorks";
 import Testimonials from "@/components/home/Testimonials";
+import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/navbar";
 import { getMe } from "@/services/getme";
 
@@ -24,6 +25,7 @@ export default async function Home() {
           <FinalCTA></FinalCTA>
         </div>
       </main>
+      <Footer></Footer>
     </>
   );
 }
