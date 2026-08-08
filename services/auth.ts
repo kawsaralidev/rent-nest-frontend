@@ -9,17 +9,41 @@ const BASE_URL = process.env.BACKEND_API_URL!;
 
 export const login = async (
   payload: ILoginPayload,
-): Promise<ILoginResponse> => {
+): Promise<ILoginResponse & { refreshToken?: string }> => {
   const res = await fetch(`${BASE_URL}/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    credentials: "include",
     body: JSON.stringify(payload),
+    cache: "no-store",
   });
 
-  return res.json();
+  const result = await res.json();
+
+  if (!res.ok) {
+    return result;
+  }
+
+  const setCookie =
+    typeof res.headers.getSetCookie === "function"
+      ? res.headers.getSetCookie()[0]
+      : res.headers.get("set-cookie");
+
+  let refreshToken: string | undefined;
+
+  if (setCookie) {
+    const match = setCookie.match(/refreshToken=([^;]+)/);
+
+    if (match) {
+      refreshToken = match[1];
+    }
+  }
+
+  return {
+    ...result,
+    refreshToken,
+  };
 };
 
 export const register = async (
@@ -31,24 +55,33 @@ export const register = async (
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
+    cache: "no-store",
   });
 
   return res.json();
 };
 
-export const refreshToken = async () => {
+export const refreshToken = async (token: string) => {
   const res = await fetch(`${BASE_URL}/auth/refresh-token`, {
     method: "POST",
-    credentials: "include",
+    headers: {
+      Cookie: `refreshToken=${token}`,
+    },
+    cache: "no-store",
   });
 
   return res.json();
 };
 
-export const logout = async () => {
+export const logout = async (token?: string) => {
   const res = await fetch(`${BASE_URL}/auth/logout`, {
     method: "POST",
-    credentials: "include",
+    headers: token
+      ? {
+          Cookie: `refreshToken=${token}`,
+        }
+      : undefined,
+    cache: "no-store",
   });
 
   return res.json();

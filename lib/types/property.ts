@@ -3,6 +3,12 @@ export interface IProperty {
   title: string;
   description: string;
   imageUrl?: string;
+  bedrooms: number;
+  bathrooms: number;
+  area: number;
+  isFeatured: boolean;
+  averageRating: number;
+  reviewCount: number;
   location: string;
   price: number;
   amenities: string[];
@@ -20,6 +26,18 @@ export interface IProperty {
     name: string;
     email: string;
   };
+  reviews?: {
+    id: string;
+    rating: number;
+    comment: string;
+    createdAt: string;
+
+    tenant?: {
+      id: string;
+      name: string;
+      email: string;
+    };
+  }[];
 }
 
 export interface IPropertyResponse {
@@ -37,10 +55,20 @@ export interface IPropertyResponse {
 export interface ICreatePropertyPayload {
   title: string;
   description: string;
+
   imageUrl?: string;
+
+  bedrooms: number;
+  bathrooms: number;
+  area: number;
+
+  isFeatured?: boolean;
+
   location: string;
   price: number;
+
   categoryId: string;
+
   amenities: string[];
 }
 
@@ -57,12 +85,21 @@ export interface IGetPropertyResponse {
 }
 
 export interface IUpdatePropertyPayload {
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
+
   imageUrl?: string;
-  location: string;
-  price: number;
-  amenities: string[];
+
+  bedrooms?: number;
+  bathrooms?: number;
+  area?: number;
+
+  isFeatured?: boolean;
+
+  location?: string;
+  price?: number;
+
+  amenities?: string[];
 }
 
 export interface IUpdatePropertyResponse {

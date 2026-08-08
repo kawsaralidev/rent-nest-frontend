@@ -62,7 +62,7 @@ const CategoriesSection = async () => {
             return (
               <Link
                 key={category.id}
-                href={`/properties?category=${category.id}`}
+                href={`/properties?categoryId=${category.id}`}
                 className="group"
               >
                 <div className="flex items-center justify-between rounded-3xl border border-slate-200 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-blue-500 hover:shadow-2xl">

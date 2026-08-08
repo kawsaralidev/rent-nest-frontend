@@ -1,82 +1,99 @@
-// import { getProperties } from "@/services/property";
-// import PropertyCard from "@/components/modules/property/PropertyCard";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
+import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
 import { getProperties } from "@/services/property/get-properties";
-import PropertyCard from "../property/PropertyCard";
 import { IProperty } from "@/lib/types/property";
 
-const FeaturedProperties = async () => {
-  const response = await getProperties();
+import PropertyCard from "../property/PropertyCard";
 
-  const properties = response?.data?.slice(0, 6) || [];
+const FeaturedProperties = async () => {
+  const response = await getProperties({
+    page: 1,
+    limit: 6,
+    featured: true,
+  });
+
+  const properties: IProperty[] = response?.data ?? [];
 
   return (
-    <section className="relative overflow-hidden py-24">
-      {/* Background */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white via-slate-50 to-white" />
-      <div className="absolute left-0 top-20 h-72 w-72 rounded-full bg-blue-100 blur-3xl opacity-50 -z-10" />
-      <div className="absolute right-0 bottom-10 h-80 w-80 rounded-full bg-cyan-100 blur-3xl opacity-50 -z-10" />
-
+    <section className="bg-background py-20 transition-colors duration-300 sm:py-24">
       <div className="container mx-auto px-6">
-        {/* Heading */}
-        <div className="mx-auto mb-16 max-w-3xl text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border bg-white px-4 py-2 shadow-sm">
-            <Sparkles className="h-4 w-4 text-blue-600" />
-            <span className="text-sm font-semibold text-blue-600">
-              Featured Collection
+        {/* =========================
+            SECTION HEADER
+        ========================== */}
+        <div className="mx-auto mb-14 max-w-3xl text-center sm:mb-16">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 shadow-sm">
+            <Sparkles className="h-4 w-4 text-primary" />
+
+            <span className="text-sm font-semibold text-primary">
+              Featured Properties
             </span>
           </div>
 
-          <h2 className="text-4xl font-bold text-slate-900 lg:text-5xl">
-            Discover Our Featured Properties
+          <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+            Discover Your Next Home
           </h2>
 
-          <p className="mt-5 text-lg leading-8 text-slate-600">
-            Explore our handpicked rental properties designed to provide
-            comfort, convenience, and exceptional living experiences.
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
+            Explore our handpicked selection of quality rental properties
+            designed for comfortable and convenient living.
           </p>
         </div>
 
-        {/* Property Grid */}
-        <div className="grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
-          {properties.map((property: IProperty) => (
-            <div
-              key={property.id}
-              className="transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02]"
-            >
-              <PropertyCard property={property} />
+        {/* =========================
+            EXACTLY 6 PROPERTY CARDS
+        ========================== */}
+        {properties.length > 0 ? (
+          <>
+            <div className="grid gap-6 sm:grid-cols-2 lg:gap-7 xl:grid-cols-3">
+              {properties.slice(0, 6).map((property: IProperty) => (
+                <PropertyCard key={property.id} property={property} />
+              ))}
             </div>
-          ))}
-        </div>
 
-        {/* Empty */}
-        {properties.length === 0 && (
-          <div className="rounded-3xl border border-dashed py-20 text-center">
-            <h3 className="text-2xl font-bold text-slate-800">
-              No Featured Properties
-            </h3>
+            {/* =========================
+                EXPLORE MORE BUTTON
+            ========================== */}
+            <div className="mt-12 flex justify-center sm:mt-14">
+              <Button
+                asChild
+                size="lg"
+                className="group rounded-xl px-7 shadow-sm transition-all duration-300 hover:px-8 hover:shadow-lg"
+              >
+                <Link href="/properties">
+                  Explore More Properties
+                  <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
+              </Button>
+            </div>
+          </>
+        ) : (
+          /* =========================
+              EMPTY STATE
+          ========================== */
+          <div className="rounded-3xl border border-dashed border-border bg-card px-6 py-16 text-center shadow-sm">
+            <div className="mx-auto max-w-md">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
+                <Sparkles className="h-6 w-6 text-primary" />
+              </div>
 
-            <p className="mt-3 text-slate-500">
-              Please check back later for newly added rental properties.
-            </p>
-          </div>
-        )}
+              <h3 className="mt-5 text-xl font-bold text-foreground">
+                No Featured Properties
+              </h3>
 
-        {/* CTA */}
-        {properties.length > 0 && (
-          <div className="mt-16 flex justify-center">
-            <Button
-              asChild
-              size="lg"
-              className="rounded-xl px-8 shadow-lg transition-all duration-300 hover:scale-105"
-            >
-              <Link href="/properties">
-                Explore All Properties
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                No featured properties are currently available. Explore all
+                available properties to find your next home.
+              </p>
+
+              <Button asChild variant="outline" className="mt-5 rounded-xl">
+                <Link href="/properties">
+                  Explore Properties
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
           </div>
         )}
       </div>

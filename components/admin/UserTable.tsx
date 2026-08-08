@@ -54,11 +54,14 @@ const UserTable = ({ users }: UserTableProps) => {
   };
 
   return (
-    <div className="w-full space-y-6">
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+    <div className="space-y-5">
+      {/* =========================
+          SEARCH HEADER
+      ========================== */}
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <Input
           placeholder="Search by name, email or role..."
-          className="w-full md:max-w-md"
+          className="w-full bg-background md:max-w-md"
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
@@ -68,40 +71,78 @@ const UserTable = ({ users }: UserTableProps) => {
 
         <p className="text-sm text-muted-foreground">
           Total Users:{" "}
-          <span className="font-semibold">{filteredUsers.length}</span>
+          <span className="font-semibold text-foreground">
+            {filteredUsers.length}
+          </span>
         </p>
       </div>
 
+      {/* =========================
+          EMPTY STATE
+      ========================== */}
       {filteredUsers.length === 0 ? (
-        <div className="rounded-xl border p-10 text-center">
+        <div className="rounded-xl border border-dashed border-border bg-card p-10 text-center shadow-sm">
           <p className="text-muted-foreground">No users found.</p>
         </div>
       ) : (
         <>
-          <div className="w-full overflow-x-auto rounded-xl border bg-white shadow-sm">
+          {/* =========================
+              TABLE
+          ========================== */}
+          <div className="w-full overflow-x-auto rounded-xl border border-border bg-card shadow-sm">
             <table className="min-w-full">
-              <thead className="bg-muted/40">
-                <tr>
-                  <th className="px-6 py-4 text-left">Name</th>
-                  <th className="px-6 py-4 text-left">Email</th>
-                  <th className="px-6 py-4 text-left">Role</th>
-                  <th className="px-6 py-4 text-left">Status</th>
-                  <th className="px-6 py-4 text-left">Created</th>
-                  <th className="px-6 py-4 text-center">Action</th>
+              <thead className="bg-muted/50">
+                <tr className="border-b border-border">
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">
+                    Name
+                  </th>
+
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">
+                    Email
+                  </th>
+
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">
+                    Role
+                  </th>
+
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">
+                    Status
+                  </th>
+
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">
+                    Created
+                  </th>
+
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-foreground">
+                    Action
+                  </th>
                 </tr>
               </thead>
 
               <tbody>
                 {paginatedUsers.map((user) => (
-                  <tr key={user.id} className="border-t hover:bg-muted/30">
-                    <td className="px-6 py-4 font-medium">{user.name}</td>
-
-                    <td className="px-6 py-4">{user.email}</td>
-
-                    <td className="px-6 py-4">
-                      <Badge variant="secondary">{user.role}</Badge>
+                  <tr
+                    key={user.id}
+                    className="border-b border-border last:border-b-0 transition-colors hover:bg-accent/40"
+                  >
+                    {/* Name */}
+                    <td className="px-6 py-4 font-medium text-foreground">
+                      {user.name}
                     </td>
 
+                    {/* Email */}
+                    <td className="px-6 py-4 text-sm text-muted-foreground">
+                      {user.email}
+                    </td>
+
+                    {/* Role */}
+                    <td className="px-6 py-4">
+                      <Badge variant="secondary" className="border-border">
+                        {user.role}
+                      </Badge>
+                    </td>
+
+                    {/* Status */}
                     <td className="px-6 py-4">
                       <Badge
                         variant={
@@ -112,10 +153,12 @@ const UserTable = ({ users }: UserTableProps) => {
                       </Badge>
                     </td>
 
-                    <td className="px-6 py-4">
+                    {/* Created */}
+                    <td className="px-6 py-4 text-sm text-muted-foreground">
                       {new Date(user.createdAt).toLocaleDateString()}
                     </td>
 
+                    {/* Action */}
                     <td className="px-6 py-4 text-center">
                       {user.status === "ACTIVE" ? (
                         <Button
@@ -124,7 +167,7 @@ const UserTable = ({ users }: UserTableProps) => {
                           disabled={isPending}
                           onClick={() => handleStatusUpdate(user.id, "BANNED")}
                         >
-                          Ban
+                          {isPending ? "Updating..." : "Ban"}
                         </Button>
                       ) : (
                         <Button
@@ -132,7 +175,7 @@ const UserTable = ({ users }: UserTableProps) => {
                           disabled={isPending}
                           onClick={() => handleStatusUpdate(user.id, "ACTIVE")}
                         >
-                          Unban
+                          {isPending ? "Updating..." : "Unban"}
                         </Button>
                       )}
                     </td>
@@ -141,18 +184,25 @@ const UserTable = ({ users }: UserTableProps) => {
               </tbody>
             </table>
           </div>
-          <div className="flex flex-col items-center justify-between gap-4 border-t bg-muted/20 px-6 py-4 md:flex-row">
+
+          {/* =========================
+              PAGINATION
+          ========================== */}
+          <div className="flex flex-col items-center justify-between gap-4 rounded-xl border border-border bg-card px-6 py-4 shadow-sm md:flex-row">
             <p className="text-sm text-muted-foreground">
               Showing{" "}
-              <span className="font-semibold">
+              <span className="font-semibold text-foreground">
                 {(currentPage - 1) * ITEMS_PER_PAGE + 1}
               </span>{" "}
               -
-              <span className="font-semibold">
+              <span className="font-semibold text-foreground">
                 {" "}
                 {Math.min(currentPage * ITEMS_PER_PAGE, filteredUsers.length)}
               </span>{" "}
-              of <span className="font-semibold">{filteredUsers.length}</span>{" "}
+              of{" "}
+              <span className="font-semibold text-foreground">
+                {filteredUsers.length}
+              </span>{" "}
               users
             </p>
 
@@ -166,7 +216,7 @@ const UserTable = ({ users }: UserTableProps) => {
                 Previous
               </Button>
 
-              <span className="rounded-md border px-4 py-2 text-sm font-medium">
+              <span className="rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-foreground">
                 {currentPage} / {Math.max(totalPages, 1)}
               </span>
 

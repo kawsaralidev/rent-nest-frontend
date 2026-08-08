@@ -36,13 +36,25 @@ export const loginAction = async (
   if (result.success) {
     const cookieStore = await cookies();
 
+    // Access Token
     cookieStore.set("accessToken", result.data.accessToken, {
       httpOnly: true,
       sameSite: "lax",
       secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60 * 24,
+      maxAge: 60 * 60,
       path: "/",
     });
+
+    // Refresh Token
+    if (result.refreshToken) {
+      cookieStore.set("refreshToken", result.refreshToken, {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 30 * 24 * 60 * 60,
+        path: "/",
+      });
+    }
 
     const decodedToken = jwt.decode(result.data.accessToken) as JwtPayload;
 
@@ -84,28 +96,41 @@ export const registerAction = async (
 };
 
 export const logoutAction = async () => {
-  await logout();
-
   const cookieStore = await cookies();
 
+  const refreshTokenValue = cookieStore.get("refreshToken")?.value;
+
+  await logout(refreshTokenValue);
+
   cookieStore.delete("accessToken");
+  cookieStore.delete("refreshToken");
 
   redirect("/login");
 };
 
 export const refreshTokenAction = async () => {
-  const result = await refreshToken();
+  const cookieStore = await cookies();
 
-  if (!result.success) {
+  const refreshTokenValue = cookieStore.get("refreshToken")?.value;
+
+  if (!refreshTokenValue) {
     return null;
   }
 
-  const cookieStore = await cookies();
+  const result = await refreshToken(refreshTokenValue);
+
+  if (!result.success) {
+    cookieStore.delete("accessToken");
+    cookieStore.delete("refreshToken");
+
+    return null;
+  }
 
   cookieStore.set("accessToken", result.data.accessToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
+    maxAge: 60 * 60,
     path: "/",
   });
 
